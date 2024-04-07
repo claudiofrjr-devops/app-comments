@@ -41,9 +41,8 @@ jobs:
         run: |
           ls -lha
           tree
-          cd ./Cloud_infraestrutura/AWS/terraform/vpc/
-          terraform Init --upgrade
-          terraform plan    
+          terraform Init Cloud_infraestrutura/AWS/terraform/vpc/
+          terraform plan Cloud_infraestrutura/AWS/terraform/vpc/
       - name: Aguardar antes do APPLY
         run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
 
