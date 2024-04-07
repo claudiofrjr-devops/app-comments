@@ -40,11 +40,11 @@ jobs:
       - name: Terraform Init
         run: |
           tree
-          terraform init Cloud_infraestrutura/AWS/terraform/vpc/
+          terraform init -chdir=./Cloud_infraestrutura/AWS/terraform/vpc/
 
       - name: Terraform Plan
         run: |
-          terraform plan Cloud_infraestrutura/AWS/terraform/vpc/
+          terraform plan -chdir=./Cloud_infraestrutura/AWS/terraform/vpc/
 
 
       - name: Aguardar antes do APPLY
@@ -52,5 +52,4 @@ jobs:
 
       - name: Terraform APPLY
         run: |
-          cd ./Cloud_infraestrutura/AWS/terraform/vpc/
-          terraform apply -auto-approve
+          terraform apply -chdir=./Cloud_infraestrutura/AWS/terraform/vpc/ -auto-approve
