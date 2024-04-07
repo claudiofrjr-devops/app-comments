@@ -1,0 +1,51 @@
+name: Terraform APPLY - Infra_LAB_Globo
+on: 
+  workflow_dispatch:
+    inputs:
+      wait-time:
+        description:  'Tempo de espera para inicar o Apply: 2m, 3m, 5m'
+        required:  true
+        default: '3m'
+
+env: 
+  AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+  AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
+  AWS_REGION: ${{secrets.AWS_REGION}}
+  LATEST_IMAGE_TAG: ${{secrets.LATEST_IMAGE_TAG}}
+
+jobs:
+  terraform:
+    runs-on:  ubuntu-22.04
+    steps:
+
+      - name: Instalar Terraform and Tools
+        run: |
+          cd ~
+          sudo apt update
+          sudo apt install -y unzip wget
+          sudo wget https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip
+          ls -lha
+          sudo unzip terraform_1.5.5_linux_amd64.zip
+          sudo chmod +x terraform
+          sudo cp -r terraform /usr/local/bin
+          ls -lh /usr/local/bin
+      
+      - name:  Repositorio Terraform
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: ./Cloud_infraestrutura/AWS/terraform/
+
+      - name: Terraform Init e Plan
+        run: |
+          ls -lha
+          cd ./Cloud_infraestrutura/AWS/terraform/vpc
+          terraform Init && terraform plan    
+      - name: Aguardar antes do APPLY
+        run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
+
+      - name: Terraform APPLY
+        run: |
+          cd ./Cloud_infraestrutura/AWS/terraform/vpc
+          terraform apply -auto-approve

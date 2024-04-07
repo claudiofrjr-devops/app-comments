@@ -7,4 +7,7 @@ module "ec2" {
   aws_region         = var.aws_region
   ecr_image_name     = var.ecr_image_name
   ecr_repository_url = var.ecr_repository_url
+ script_container =  file("../../terraform_modulos/ec2/ecr_script.sh")
+ crontab_agendamento = "0 * * * *"
+
 }

@@ -60,6 +60,11 @@ resource "aws_instance" "this" {
             aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com
             docker pull ${var.ecr_repository_url}/${var.ecr_image_name}
             docker run -dti -p 8000:8080 --name api-comentario ${var.ecr_repository_url}/${var.ecr_image_name}
+
+            echo "${var.script_container}" > /tmp/update_container.sh
+            chmod +x /tmp/update_container.sh
+            echo "${var.crontab_agendamento} /tmp/update_container.sh" > /tmp/crontab_tmp
+            crontab /tmp/crontab_tmp
             EOF
 
 }
