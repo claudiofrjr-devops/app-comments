@@ -36,7 +36,7 @@ jobs:
         with:
           ref: main
           path: ./repository-files/
-
+             ##VPC##
       - name: Terraform Init
         run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/vpc/ && terraform init
 
@@ -49,3 +49,31 @@ jobs:
 
       - name: Terraform APPLY
         run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/vpc/ && terraform apply -auto-approve
+
+            ##ECR##
+      - name: Terraform Init
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/ecr/ && terraform init
+
+      - name: Terraform Plan
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/ecr/ && terraform plan
+
+
+      - name: Aguardar antes do APPLY
+        run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
+
+      - name: Terraform APPLY
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/ecr/ && terraform apply -auto-approve
+
+            ##EC2##
+      - name: Terraform Init
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/ec2/ && terraform init
+
+      - name: Terraform Plan
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/ec2/ && terraform plan
+
+
+      - name: Aguardar antes do APPLY
+        run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
+
+      - name: Terraform APPLY
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/ec2/ && terraform apply -auto-approve
