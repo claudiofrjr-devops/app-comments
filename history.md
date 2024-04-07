@@ -25,3 +25,13 @@
 
 **Iniciando Estrutura pata Terraformar Recursos**
 
+Realizado a criação de Modulos para serem reutilizados
+→ Efetuado todo processo de criação da Infra primeiro com os comando locais para validação antes de inserir em uma automação em Pipeline.
+→  Será utilizado a solução GitHub Action.
+
+O Processo de construção da Infra na AWS foi de forma a utilizar o Free-Tier então ocorreram adaptações para disponibilizar a aplicação .
+ Foi realizado a construção dos modulos sem inserir nada Hard-COde ( com valores fixos  nos modulos) estamente para o o uso em futuros projetos.
+
+![alt text](image.png)
+
+-------------------------------------------------------------------------------------------------------------
