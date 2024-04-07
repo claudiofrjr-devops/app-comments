@@ -41,13 +41,11 @@ jobs:
         run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/vpc/ && terraform init
 
       - name: Terraform Plan
-        run: |
-          terraform plan -chdir=./Cloud_infraestrutura/AWS/terraform/vpc/
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/vpc/ && terraform plan
 
 
       - name: Aguardar antes do APPLY
         run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
 
       - name: Terraform APPLY
-        run: |
-          terraform apply -chdir=./Cloud_infraestrutura/AWS/terraform/vpc/ -auto-approve
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/vpc/ && terraform apply -auto-approve
