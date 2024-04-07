@@ -41,12 +41,13 @@ jobs:
         run: |
           ls -lha
           tree
-          cd ./Cloud_infraestrutura/AWS/terraform/vpc
-          terraform Init && terraform plan    
+          cd ./Cloud_infraestrutura/AWS/terraform/vpc/
+          terraform Init --upgrade
+          terraform plan    
       - name: Aguardar antes do APPLY
         run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
 
       - name: Terraform APPLY
         run: |
-          cd ./Cloud_infraestrutura/AWS/terraform/vpc
+          cd ./Cloud_infraestrutura/AWS/terraform/vpc/
           terraform apply -auto-approve
