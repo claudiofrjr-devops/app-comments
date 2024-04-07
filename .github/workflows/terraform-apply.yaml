@@ -23,7 +23,7 @@ jobs:
         run: |
           cd ~
           sudo apt update
-          sudo apt install -y unzip wget
+          sudo apt install -y unzip wget tree
           sudo wget https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip
           ls -lha
           sudo unzip terraform_1.5.5_linux_amd64.zip
@@ -32,14 +32,15 @@ jobs:
           ls -lh /usr/local/bin
       
       - name:  Repositorio Terraform
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           ref: main
-          path: ./Cloud_infraestrutura/AWS/terraform/
+          path: ./repository-files/
 
       - name: Terraform Init e Plan
         run: |
           ls -lha
+          tree
           cd ./Cloud_infraestrutura/AWS/terraform/vpc
           terraform Init && terraform plan    
       - name: Aguardar antes do APPLY
