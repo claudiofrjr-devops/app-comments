@@ -38,7 +38,7 @@ jobs:
           path: ./repository-files/
 
       - name: Terraform Init
-        run: terraform init -chdir=./Cloud_infraestrutura/AWS/terraform/vpc
+        run: cd ./repository-files/Cloud_infraestrutura/AWS/terraform/vpc/ && ls -lha ~/terraform init
 
       - name: Terraform Plan
         run: |
