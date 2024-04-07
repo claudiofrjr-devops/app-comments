@@ -37,12 +37,16 @@ jobs:
           ref: main
           path: ./repository-files/
 
-      - name: Terraform Init e Plan
+      - name: Terraform Init
         run: |
-          ls -lha
           tree
           terraform init Cloud_infraestrutura/AWS/terraform/vpc/
+
+      - name: Terraform Plan
+        run: |
           terraform plan Cloud_infraestrutura/AWS/terraform/vpc/
+
+
       - name: Aguardar antes do APPLY
         run: sleep "${{ github.event.inputs.wait-time }}" || sllep "3m"
 
