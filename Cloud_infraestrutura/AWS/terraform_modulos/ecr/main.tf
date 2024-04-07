@@ -1,7 +1,7 @@
 ### Registry
 
 resource "aws_ecr_repository" "this" {
-    name = var.repositorio_ecr
+    name                                 = var.repositorio_ecr
     image_tag_mutability = var.image_tag
   
 }

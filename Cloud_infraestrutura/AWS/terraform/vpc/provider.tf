@@ -7,8 +7,8 @@ terraform {
   }
   backend "s3" {
     bucket = "cloud-infraestrutura-aws-tfstate"
-    key = "modulo/vpc/terraform.tfstate"
-    region = "us-east-1"
+    key        = "modulo/vpc/terraform.tfstate"
+    region  = "us-east-1"
   }
 }
 
@@ -16,9 +16,9 @@ provider "aws" {
   default_tags {
    tags = {
      Environment = "hml"
-     Managed-by       = "Terraform"
-     Project     = "LAB-Globo"
-     CostCenter = "cc-001"
+     Managed-by  = "Terraform"
+     Project            = "LAB-Globo"
+     CostCenter     = "cc-001"
    }
  }
 }

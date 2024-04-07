@@ -10,7 +10,6 @@ output "subnet_private_01" {
 output "subnet_private_02" {
   value = aws_subnet.private_02.id
 }
-
 output "security_group" {
   value = aws_security_group.this.*.id
 }
