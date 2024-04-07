@@ -46,5 +46,13 @@ variable "environment" {
   default = "hml"
 
 }
-
-   
+variable "script_container" {
+    description = "Script sera executado para  atualizar e sempre buscar imagem atualizada no ECR"
+    type = string
+  
+}
+variable "crontab_agendamento" {
+    description = "(Agendamento do Script de validação da imagem"
+     type = string
+    
+}  
