@@ -38,11 +38,12 @@ jobs:
     ###Atualizando Container####
 
   update_container:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Install AWS CLI
         run: |
-          apt-get update && apt-get install -y zip awscli
+          sudo apt update 
+          sudo apt install -y zip awscli
 
       - name: Validar status do container
         run: |
