@@ -35,3 +35,17 @@ O Processo de construção da Infra na AWS foi de forma a utilizar o Free-Tier e
 ![alt text](image.png)
 
 -------------------------------------------------------------------------------------------------------------
+Realizado via Pipeline a construção da Infraestrutura via Terraform.
+
+![alt text](image-1.png)
+
+Foi realizado alguns ajustes mas devido ao tempo para executar o Desafio (consegui apenas o sabado e Domingo) sem desculpa pelo tempo acabei enfrentando alguns desafios que demandaram tempo no Github Actions.
+
+Nao consegui fazer a ideia geral da estrutura, mas seria.
+
+Vis Push e atualizações na Branch Main o Build da imagem nova e a atualização do COntainer direto na EC2.
+
+
+GOstaria de ter tdo mais tempo para desenhar o pequeno projeto e como poderia ficar em uma estrutura ECS, pois acabei adaptando algumas configurações com EC@.
+
+Agradeço pelo Desafio.
