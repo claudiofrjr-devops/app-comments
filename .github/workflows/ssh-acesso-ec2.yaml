@@ -1,4 +1,4 @@
-name: Criar Chave SSH, Import AWS e GIthub
+name: Criar Chave SSH, Import AWS e GitHub
 
 on:
   push:
@@ -12,13 +12,15 @@ env:
   LATEST_IMAGE_TAG: ${{ secrets.LATEST_IMAGE_TAG }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} 
 
-
 jobs:
   create_ssh_key:
     runs-on: ubuntu-latest
     steps:
       - name: Criar SSH Key
-        run: ssh-keygen -t rsa -b 4096 -C "claudio.fe.rejes@gmail.com" -f /tmp/deploy_key -N ''
+        run: ssh-keygen -t rsa -b 4096 -C "claudio.fe.rejes@gmail.com" -f deploy_key -N ''
+
+      - name: Move a chave para a raiz do repositório
+        run: mv deploy_key /github/workspace/deploy_key
 
   import_ssh_key_to_aws:
     needs: create_ssh_key
@@ -31,7 +33,7 @@ jobs:
 
       - name: Import SSH Key to AWS
         run: |
-          aws ec2 import-key-pair --key-name ec2-container-key --public-key-material file:///tmp/deploy_key.pub
+          aws ec2 import-key-pair --key-name ec2-container-key --public-key-material file:///github/workspace/deploy_key.pub
 
   add_ssh_key_to_github_secrets:
     needs: import_ssh_key_to_aws
@@ -39,5 +41,12 @@ jobs:
     steps:
       - name: Configurar GitHub Environment Variables
         run: |
-          echo "SSH_PRIVATE_KEY=$(cat /tmp/deploy_key)" >> $GITHUB_ENV
-          echo "SSH_PRIVATE_KEY_PATH=/tmp/deploy_key" >> $GITHUB_ENV
+          echo "SSH_PRIVATE_KEY=$(cat /github/workspace/deploy_key)" >> $GITHUB_ENV
+          echo "SSH_PRIVATE_KEY_PATH=/github/workspace/deploy_key" >> $GITHUB_ENV
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [add_ssh_key_to_github_secrets]
+    steps:
+      - name: Remover a chave SSH
+        run: rm /github/workspace/deploy_key
