@@ -49,3 +49,14 @@ Vis Push e atualizações na Branch Main o Build da imagem nova e a atualizaçã
 GOstaria de ter tdo mais tempo para desenhar o pequeno projeto e como poderia ficar em uma estrutura ECS, pois acabei adaptando algumas configurações com EC@.
 
 Agradeço pelo Desafio.
+
+OBS: Ajustes que queria ter realizado 
+   Adicionar Trivy na Pipelina para varredura de Vulnerabilidades na Imagem.
+   Cosign assinando a imagem para recebe no container essa imagem assinada.
+   S3 Buckets estao com seus tfstaes separados.
+
+   ![alt text](image-2.png)
+
+   Estrutura Final no Gitub em relação a Pipelines
+
+   ![alt text](image-3.png)
