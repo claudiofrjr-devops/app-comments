@@ -24,12 +24,12 @@ variable "aws_region" {
 variable "aws_account_id" {
   description = "conta AWS"
   type        = string
-  default     = "058264399987"
+  #default     = 
 
 }
 variable "ecr_repository_url" {
   type    = string
-  default = "058264399987.dkr.ecr.us-east-1.amazonaws.com/hml-lab-globo:latest"
+  #default = ".dkr.ecr.us-east-1.amazonaws.com/hml-lab-globo:latest"
 }
 variable "ecr_image_name" {
   type    = string
