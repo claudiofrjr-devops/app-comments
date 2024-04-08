@@ -38,6 +38,7 @@ jobs:
     ###Atualizando Container####
 
   update_container:
+    needs: build_push_image
     runs-on: ubuntu-22.04
     steps:
       - name: Install AWS CLI
