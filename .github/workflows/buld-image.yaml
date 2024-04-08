@@ -23,7 +23,7 @@ jobs:
       - name: Build e Push Imagem Docker
         run: |
           echo ##################### BUILD & PUSH DOCKER IMAGE TO ECR #####################
-          sudo apt-get update && apt-get install -y zip awscli
+          sudo apt-get update && sudo apt-get install -y zip awscli
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
           cd ./repository-files/app
           docker build -t $LATEST_IMAGE_TAG .
