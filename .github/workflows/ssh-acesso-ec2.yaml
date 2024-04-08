@@ -24,6 +24,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y awscli tree
           tree /tmp
-          aws ec2 import-key-pair --key-name ec2-container-key --public-key-material file:/tmp/deploy_key.pub
+          cd /tmp
+          aws ec2 import-key-pair --key-name deploy_key --public-key-material file:deploy_key.pub
           echo "SSH_PRIVATE_KEY=$(cat /tmp/deploy_key)" >> $GITHUB_ENV
           echo "SSH_PRIVATE_KEY_PATH=/tmp/deploy_key" >> $GITHUB_ENV
