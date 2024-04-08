@@ -1,0 +1,58 @@
+name: Build e Deploy Imagem no ECR - Update Container
+
+on:
+  push:
+    branches:
+      - main
+
+env: 
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  LATEST_IMAGE_TAG: ${{ secrets.LATEST_IMAGE_TAG }} 
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} 
+  
+jobs:
+  build_push_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build e Push Imagem Docker
+        run: |
+          echo ##################### BUILD & PUSH DOCKER IMAGE TO ECR #####################
+          apt-get update && apt-get install -y zip awscli
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          docker build -t $LATEST_IMAGE_TAG .
+          docker tag $LATEST_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$LATEST_IMAGE_TAG
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$LATEST_IMAGE_TAG
+ 
+
+    ###Atualizando Container####
+
+  update_container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install AWS CLI
+        run: |
+          apt-get update && apt-get install -y zip awscli
+
+      - name: Validar status do container
+        run: |
+          RUNNING_CONTAINER=$(ssh -i $SSH_PRIVATE_KEY $EC2_USER@$IP_PUBLICO_EC2 "docker ps -aqf name=api-comentarios")
+          if [ ! -z "$RUNNING_CONTAINER" ]; then
+            echo "Container status Running. Stop/Remove "
+            ssh -i $SSH_PRIVATE_KEY $EC2_USER@$IP_PUBLICO_EC2 "docker stop $RUNNING_CONTAINER && docker rm $RUNNING_CONTAINER"
+          else
+            echo "No running container found."
+          fi
+
+      - name: Remover imagem atual
+        run: |
+          ssh -i $SSH_PRIVATE_KEY $EC2_USER@$IP_PUBLICO_EC2 "docker rmi -f ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/hml-lab-globo:${LATEST_IMAGE_TAG}"
+
+      - name: Pull da imagem mais recente e atualizar container api-comentarios
+        run: |
+          ssh -i $SSH_PRIVATE_KEY $EC2_USER@$IP_PUBLICO_EC2 "docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/hml-lab-globo:${LATEST_IMAGE_TAG} \
+            && docker run -dti -p 8000:8000 --name api-comentarios ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/hml-lab-globo:${LATEST_IMAGE_TAG}"
