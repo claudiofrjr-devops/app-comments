@@ -29,7 +29,8 @@ jobs:
           sudo apt update 
           sudo apt install -y zip awscli
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
-          cd ./repository-files/app
+          cd ./repository-files/app/
+          la -lha
           docker build -t $LATEST_IMAGE_TAG .
           docker tag $LATEST_IMAGE_TAG $ECR_REGISTRY/$LATEST_IMAGE_TAG
           docker push $ECR_REGISTRY/$LATEST_IMAGE_TAG
